@@ -16,6 +16,19 @@ cudaSetDevice(device)
 
 cudaDeviceReset()
 }
+\arguments{
+\item{device}{A non-negative integer corresponding to the GPU you want to use.}
+}
 \description{
 CUDA device management utilities.
+}
+\details{
+\code{cudaGetDeviceCount()} returns the number of available GPU's.
+
+\code{cudaGetDevice()} returns the device number (0, 1, ...) currently in use.
+
+\code{cudaSetDevice()} sets the device to the supplied number (0, 1, ...).
+
+\code{cudaDeviceReset()} Destroys all allocations and resets state on the
+current device in the current process.
 }

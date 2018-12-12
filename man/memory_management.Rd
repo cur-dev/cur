@@ -19,6 +19,40 @@ cudaMemcpy(dst, src, count, size, kind)
 
 cudaMemset(dev_ptr, value, count, size)
 }
+\arguments{
+\item{count}{Number of elements (NOT BYTES).}
+
+\item{size}{A standin for \code{sizeof()}. Acceptable values are \code{"int"},
+\code{"float"}, and \code{"double"}. Values are case insensitive.}
+
+\item{dev_ptr}{Pointer to device memory, i.e. an object returned from \code{cudaMalloc()}.}
+
+\item{dst, src}{Device/host vectors. \code{dst}-\code{src} should be one of device-host,
+host-device, or device-device. Host vectors should be integer, float, or
+double.}
+
+\item{kind}{Description of the kind of copy. Acceptable values are \code{"DeviceToHost"},
+\code{"HostToDevice"}, and \code{"DeviceToDevice"}. Values are case
+insensitive.}
+
+\item{value}{Integer value. Probably \code{0}.}
+}
 \description{
 CUDA memory management utilities.
+}
+\details{
+\code{cudaMalloc()} allocates device memory and returns an external pointer.
+This memory is managed by the R garbage collector.
+
+\code{cudaFree()} Manually frees device memory. Does not destroy the R object
+(so calling this will make the pointer managed by the R object invalid).
+Use of this function will not cause a double free when the R object is gc'd.
+
+\code{cudaMemGetInfo()} returns a list containing the number of free bytes
+and the number of total bytes of memory on the current device.
+
+\code{cudaMemcpy()} copies memory host-to-device, device-to-host, or
+device-to-device.
+
+\code{cudaMemset()} memset for device memory.
 }

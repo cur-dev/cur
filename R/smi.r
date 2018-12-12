@@ -1,3 +1,8 @@
+#' System Management Interface
+#' 
+#' A weak clone of the system utility \code{nvidia-smi}. Only uses the package's
+#' public R interface.
+#' 
 #' @export
 smi = function()
 {
@@ -20,4 +25,5 @@ smi = function()
   }
   
   cudaSetDevice(old_gpu)
+  invisible()
 }
