@@ -92,3 +92,17 @@ gc()
 ## Ncells 378058 20.2     750400 40.1   460000 24.6
 ## Vcells 741151  5.7    1308461 10.0   924718  7.1
 ```
+
+We also have a quasi `nvidia-smi` clone written using the cur R API functions. Here's the output on a DGX-1:
+
+```r
+smi()
+## Device  0 (428.00/16152.25 MiB)
+## Device  1 (428.00/16152.25 MiB)
+## Device  2 (428.00/16152.25 MiB)
+## Device  3 (428.00/16152.25 MiB)
+## Device  4 (428.12/16152.25 MiB)
+## Device  5 (428.00/16152.25 MiB)
+## Device  6 (428.06/16152.25 MiB)
+## Device  7 (428.00/16152.25 MiB)
+```
