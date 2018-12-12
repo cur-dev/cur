@@ -65,6 +65,9 @@ cudaMalloc = function(count, size)
 #' @export
 cudaFree = function(dev_ptr)
 {
+  if (!inherits(dev_ptr, "cuda_device_memory"))
+    stop("'dev_ptr' array must be CUDA allocated memory")
+  
   .Call(R_cudaFree, dev_ptr)
   invisible()
 }
