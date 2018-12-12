@@ -2,8 +2,9 @@
 #include <Rinternals.h>
 
 
-#define COPY_TO_HOST 1
-#define COPY_TO_DEVICE 2
+#define DEVICE_TO_HOST 1
+#define HOST_TO_DEVICE 2
+#define DEVICE_TO_DEVICE 3
 
 #define TYPE_INT 1
 #define TYPE_FLOAT 2
@@ -104,16 +105,22 @@ extern "C" SEXP R_cudaMemcpy(SEXP dst_, SEXP src_, SEXP count, SEXP size, SEXP k
   int kind = INTEGER(kind_)[0];
   size_t len = (size_t) REAL(count)[0] * LOOKUP_SIZE(INTEGER(size)[0]);
   
-  if (kind == COPY_TO_HOST)
+  if (kind == DEVICE_TO_HOST)
   {
     SET_ROBJ_PTR(dst, dst_);
     src = getRptr(src_);
     check = cudaMemcpy(dst, src, len, cudaMemcpyDeviceToHost);
   }
-  else if (kind == COPY_TO_DEVICE)
+  else if (kind == HOST_TO_DEVICE)
   {
     dst = getRptr(dst_);
     SET_ROBJ_PTR(src, src_);
+    check = cudaMemcpy(dst, src, len, cudaMemcpyHostToDevice);
+  }
+  else if (kind == DEVICE_TO_DEVICE)
+  {
+    dst = getRptr(dst_);
+    src = getRptr(src_);
     check = cudaMemcpy(dst, src, len, cudaMemcpyHostToDevice);
   }
   

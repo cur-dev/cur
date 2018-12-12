@@ -94,10 +94,10 @@ cudaMemcpy = function(dst, src, count, size, kind)
   size = match.arg(tolower(size), c("int", "float", "double"))
   size = global_str2int(size)
   
-  kind = match.arg(tolower(kind), c("devicetohost", "hosttodevice"))
+  kind = match.arg(tolower(kind), c("devicetohost", "hosttodevice", "devicetodevice"))
   kind = global_str2int(kind)
   
-  if (kind == COPY_TO_HOST)
+  if (kind == DEVICE_TO_HOST)
   {
     if (!inherits(src, "cuda_device_memory"))
       stop("copying device to host: 'src' array must be CUDA allocated memory")
@@ -107,7 +107,7 @@ cudaMemcpy = function(dst, src, count, size, kind)
     else if (!is.double(dst) && !is.integer(dst))
       stop("copying device to host: 'dst' must be an int, float, or double vector")
   }
-  else # kind == COPY_TO_DEVICE
+  else if (kind == HOST_TO_DEVICE)
   {
     if (!inherits(dst, "cuda_device_memory"))
       stop("copying host to device: 'dst' array must be CUDA allocated memory")
@@ -116,6 +116,13 @@ cudaMemcpy = function(dst, src, count, size, kind)
       src = src@Data
     else if (!is.double(src) && !is.integer(src))
       stop("copying host to device: 'src' must be an int, float, or double vector")
+  }
+  else # kind == DEVICE_TO_DEVICE
+  {
+    if (!inherits(dst, "cuda_device_memory"))
+      stop("copying device to device: 'dst' array must be CUDA allocated memory")
+    if (!inherits(src, "cuda_device_memory"))
+      stop("copying device to device: 'src' array must be CUDA allocated memory")
   }
   
   
