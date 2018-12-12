@@ -1,8 +1,8 @@
 Package: cur
 Type: Package
-Title: TODO
+Title: 'CUDA' Interface for R
 Version: 0.1-0
-Description: TODO
+Description: Low-level 'NVIDIA' 'CUDA' interface for R.
     library.
 License: BSD 2-clause License + file LICENSE
 Depends:

@@ -5,7 +5,7 @@
 \alias{cur-package}
 \title{cur}
 \description{
-TODO
+Low-level NVIDIA CUDA interface for R.
 }
 \author{
 Drew Schmidt
