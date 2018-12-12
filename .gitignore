@@ -1,0 +1,11 @@
+*.o
+*.so
+*.log
+*.status
+
+*~
+*.swp
+
+src/Makevars
+
+aclocal.m4
