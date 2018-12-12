@@ -22,8 +22,6 @@ The development version is maintained on GitHub:
 remotes::install_github("wrathematics/cur")
 ```
 
-You will need to have an installation of CUDA to build the package. You can download CUDA from the [nvidia website](https://developer.nvidia.com/cuda-downloads). You will also need the development version of the float package:
+You will need to have an installation of CUDA to build the package. You can download CUDA from the [nvidia website](https://developer.nvidia.com/cuda-downloads).
 
-```r
-remotes::install_github("wrathematics/float")
-```
+Also, R must have been compiled with `--enable-R-shlib=yes`. Otherwise, the package probably won't build. 
