@@ -66,22 +66,22 @@ cudaMemcpy = function(dst, src, count, size, kind)
   if (kind == COPY_TO_HOST)
   {
     if (!inherits(src, "cuda_device_memory"))
-      stop("")
+      stop("copying device to host: 'src' array must be CUDA allocated memory")
     
     if (float::is.float(src))
       dst = dst@Data
     else if (!is.double(dst) && !is.integer(dst))
-      stop("")
+      stop("copying device to host: 'dst' must be an int, float, or double vector")
   }
   else # kind == COPY_TO_DEVICE
   {
     if (!inherits(dst, "cuda_device_memory"))
-      stop("")
+      stop("copying host to device: 'dst' array must be CUDA allocated memory")
     
     if (float::is.float(src))
       src = src@Data
     else if (!is.double(src) && !is.integer(src))
-      stop("")
+      stop("copying host to device: 'src' must be an int, float, or double vector")
   }
   
   

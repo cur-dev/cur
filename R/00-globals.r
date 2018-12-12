@@ -7,9 +7,9 @@ TYPE_DOUBLE = 3L
 
 global_str2int = function(str)
 {
-  if (str == tolower("cudamemcpydevicetohost"))
+  if (str == tolower("devicetohost"))
     COPY_TO_HOST
-  else if (str == tolower("cudamemcpyhosttodevice"))
+  else if (str == tolower("hosttodevice"))
     COPY_TO_DEVICE
   
   else if (str == "int")
@@ -18,4 +18,7 @@ global_str2int = function(str)
     TYPE_FLOAT
   else if (str == "double")
     TYPE_DOUBLE
+  
+  else
+    stop("internal error: please report this to the developers")
 }

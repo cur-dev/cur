@@ -9,9 +9,20 @@
 #define TYPE_FLOAT 2
 #define TYPE_DOUBLE 3
 
+
+#define SET_ROBJ_PTR(ptr, R_ptr) \
+  if (TYPEOF(R_ptr) == INTSXP){ \
+    ptr = (void*) INTEGER(R_ptr); \
+  } else if (TYPEOF(R_ptr) == REALSXP){ \
+    ptr = (void*) REAL(R_ptr); \
+  }
+
+
+#define LOOKUP_SIZE(data_type) (data_type == TYPE_INT ? sizeof(int) : (data_type == TYPE_FLOAT ? sizeof(float) : sizeof(double)))
+
+
 #define newRptr(ptr,Rptr,fin) PROTECT(Rptr = R_MakeExternalPtr(ptr, R_NilValue, R_NilValue));R_RegisterCFinalizerEx(Rptr, fin, TRUE)
 #define getRptr(ptr) R_ExternalPtrAddr(ptr)
-
 
 static inline void cuda_object_finalizer(SEXP Rptr)
 {
@@ -33,7 +44,7 @@ extern "C" SEXP R_cudaMalloc(SEXP n, SEXP size)
   SEXP ret;
   void *x;
   
-  size_t len = (size_t) REAL(n)[0] * INTEGER(size)[0];
+  size_t len = (size_t) REAL(n)[0] * LOOKUP_SIZE(INTEGER(size)[0]);
   check = cudaMalloc(&x, len);
   newRptr(x, ret, cuda_object_finalizer);
   
@@ -84,13 +95,6 @@ extern "C" SEXP R_cudaMemGetInfo()
 
 
 
-#define SET_ROBJ_PTR(ptr, R_ptr) \
-  if (TYPEOF(R_ptr) == INTSXP){ \
-    ptr = (void*) INTEGER(R_ptr); \
-  } else if (TYPEOF(R_ptr) == REALSXP){ \
-    ptr = (void*) REAL(R_ptr); \
-  }
-
 extern "C" SEXP R_cudaMemcpy(SEXP dst_, SEXP src_, SEXP count, SEXP size, SEXP kind_)
 {
   cudaError_t check;
@@ -98,7 +102,7 @@ extern "C" SEXP R_cudaMemcpy(SEXP dst_, SEXP src_, SEXP count, SEXP size, SEXP k
   void *src;
   
   int kind = INTEGER(kind_)[0];
-  size_t len = (size_t) REAL(count)[0] * INTEGER(size)[0];
+  size_t len = (size_t) REAL(count)[0] * LOOKUP_SIZE(INTEGER(size)[0]);
   
   if (kind == COPY_TO_HOST)
   {
@@ -123,7 +127,7 @@ extern "C" SEXP R_cudaMemset(SEXP x_ptr, SEXP value, SEXP count, SEXP size)
   cudaError_t check;
   
   void *x = getRptr(x_ptr);
-  size_t len = (size_t) REAL(count)[0] * INTEGER(size)[0];
+  size_t len = (size_t) REAL(count)[0] * LOOKUP_SIZE(INTEGER(size)[0]);
   check = cudaMemset(x, INTEGER(value)[0], len);
   
   return R_NilValue;
