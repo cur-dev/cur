@@ -1,0 +1,20 @@
+R_CPPFLAGS = @R_CPPFLAGS@
+
+NVCC = @NVCC@
+CUDA_CFLAGS = @CUDA_CFLAGS@
+CUDA_LDFLAGS = @CUDA_LDFLAGS@
+
+PKG_LIBS = $(CUDA_LDFLAGS) -lcudart
+
+CUDA_OBJS = device_management.o memory_management.o
+C_OBJS = cur_native.o
+OBJECTS = $(CUDA_OBJS) $(C_OBJS)
+
+all: $(SHLIB)
+
+%.o: %.cu
+	$(NVCC) -DGPU -O2 -x cu -c -arch=sm_61 -Xcompiler "-fPIC $(FLOAT_INCL) $(R_CPPFLAGS)" $< -o $@
+
+
+clean:
+	@rm -rf *.o *.so *.dll Makevars $(USER_CONF) $(SHLIB) $(OBJECTS)
