@@ -2,19 +2,19 @@
 % Please edit documentation in R/device_management.r
 \name{device_management}
 \alias{device_management}
-\alias{cudaGetDeviceCount}
-\alias{cudaGetDevice}
-\alias{cudaSetDevice}
 \alias{cudaDeviceReset}
+\alias{cudaGetDevice}
+\alias{cudaGetDeviceCount}
+\alias{cudaSetDevice}
 \title{CUDA Device Management}
 \usage{
-cudaGetDeviceCount()
+cudaDeviceReset()
 
 cudaGetDevice()
 
-cudaSetDevice(device)
+cudaGetDeviceCount()
 
-cudaDeviceReset()
+cudaSetDevice(device)
 }
 \arguments{
 \item{device}{A non-negative integer corresponding to the GPU you want to use.}
@@ -23,12 +23,12 @@ cudaDeviceReset()
 CUDA device management utilities.
 }
 \details{
-\code{cudaGetDeviceCount()} returns the number of available GPU's.
+\code{cudaDeviceReset()} Destroys all allocations and resets state on the
+current device in the current process.
 
 \code{cudaGetDevice()} returns the device number (0, 1, ...) currently in use.
 
-\code{cudaSetDevice()} sets the device to the supplied number (0, 1, ...).
+\code{cudaGetDeviceCount()} returns the number of available GPU's.
 
-\code{cudaDeviceReset()} Destroys all allocations and resets state on the
-current device in the current process.
+\code{cudaSetDevice()} sets the device to the supplied number (0, 1, ...).
 }

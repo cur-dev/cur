@@ -3,14 +3,14 @@
 #' CUDA device management utilities.
 #' 
 #' @details
-#' \code{cudaGetDeviceCount()} returns the number of available GPU's.
+#' \code{cudaDeviceReset()} Destroys all allocations and resets state on the
+#' current device in the current process.
 #' 
 #' \code{cudaGetDevice()} returns the device number (0, 1, ...) currently in use.
 #' 
-#' \code{cudaSetDevice()} sets the device to the supplied number (0, 1, ...).
+#' \code{cudaGetDeviceCount()} returns the number of available GPU's.
 #' 
-#' \code{cudaDeviceReset()} Destroys all allocations and resets state on the
-#' current device in the current process.
+#' \code{cudaSetDevice()} sets the device to the supplied number (0, 1, ...).
 #' 
 #' @param device
 #' A non-negative integer corresponding to the GPU you want to use.
@@ -21,12 +21,13 @@ NULL
 
 
 
-#' @useDynLib cur R_cudaGetDeviceCount
+#' @useDynLib cur R_cudaDeviceReset
 #' @rdname device_management
 #' @export
-cudaGetDeviceCount = function()
+cudaDeviceReset = function()
 {
-  .Call(R_cudaGetDeviceCount)
+  .Call(R_cudaDeviceReset)
+  invisible()
 }
 
 
@@ -41,22 +42,21 @@ cudaGetDevice = function()
 
 
 
+#' @useDynLib cur R_cudaGetDeviceCount
+#' @rdname device_management
+#' @export
+cudaGetDeviceCount = function()
+{
+  .Call(R_cudaGetDeviceCount)
+}
+
+
+
 #' @useDynLib cur R_cudaSetDevice
 #' @rdname device_management
 #' @export
 cudaSetDevice = function(device)
 {
   .Call(R_cudaSetDevice, as.integer(device))
-  invisible()
-}
-
-
-
-#' @useDynLib cur R_cudaDeviceReset
-#' @rdname device_management
-#' @export
-cudaDeviceReset = function()
-{
-  .Call(R_cudaDeviceReset)
   invisible()
 }

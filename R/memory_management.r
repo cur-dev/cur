@@ -3,18 +3,18 @@
 #' CUDA memory management utilities.
 #' 
 #' @details
-#' \code{cudaMalloc()} allocates device memory and returns an external pointer.
-#' This memory is managed by the R garbage collector.
-#' 
 #' \code{cudaFree()} Manually frees device memory. Does not destroy the R object
 #' (so calling this will make the pointer managed by the R object invalid).
 #' Use of this function will not cause a double free when the R object is gc'd.
 #' 
-#' \code{cudaMemGetInfo()} returns a list containing the number of free bytes
-#' and the number of total bytes of memory on the current device.
+#' \code{cudaMalloc()} allocates device memory and returns an external pointer.
+#' This memory is managed by the R garbage collector.
 #' 
 #' \code{cudaMemcpy()} copies memory host-to-device, device-to-host, or
 #' device-to-device.
+#' 
+#' \code{cudaMemGetInfo()} returns a list containing the number of free bytes
+#' and the number of total bytes of memory on the current device.
 #' 
 #' \code{cudaMemset()} memset for device memory.
 #' 
@@ -42,24 +42,6 @@ NULL
 
 
 
-#' @useDynLib cur R_cudaMalloc
-#' @rdname memory_management
-#' @export
-cudaMalloc = function(count, size)
-{
-  count = as.double(count)
-  
-  size = match.arg(tolower(size), c("int", "float", "double"))
-  size = global_str2int(size)
-  
-  ret = .Call(R_cudaMalloc, count, size)
-  class(ret) = "cuda_device_memory"
-  
-  ret
-}
-
-
-
 #' @useDynLib cur R_cudaFree
 #' @rdname memory_management
 #' @export
@@ -74,12 +56,20 @@ cudaFree = function(dev_ptr)
 
 
 
-#' @useDynLib cur R_cudaMemGetInfo
+#' @useDynLib cur R_cudaMalloc
 #' @rdname memory_management
 #' @export
-cudaMemGetInfo = function()
+cudaMalloc = function(count, size)
 {
-  .Call(R_cudaMemGetInfo)
+  count = as.double(count)
+  
+  size = match.arg(tolower(size), c("int", "float", "double"))
+  size = global_str2int(size)
+  
+  ret = .Call(R_cudaMalloc, count, size)
+  class(ret) = "cuda_device_memory"
+  
+  ret
 }
 
 
@@ -128,6 +118,16 @@ cudaMemcpy = function(dst, src, count, size, kind)
   
   .Call(R_cudaMemcpy, dst, src, count, size, kind)
   invisible()
+}
+
+
+
+#' @useDynLib cur R_cudaMemGetInfo
+#' @rdname memory_management
+#' @export
+cudaMemGetInfo = function()
+{
+  .Call(R_cudaMemGetInfo)
 }
 
 
