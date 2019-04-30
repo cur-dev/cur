@@ -36,6 +36,9 @@
 #' @param value
 #' Integer value. Probably \code{0}.
 #' 
+#' @references NVIDIA CUDA Runtime API
+#' \url{https://docs.nvidia.com/cuda/cuda-runtime-api/index.html}
+#' 
 #' @name memory_management
 #' @rdname memory_management
 NULL

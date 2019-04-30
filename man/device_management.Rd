@@ -32,3 +32,7 @@ current device in the current process.
 
 \code{cudaSetDevice()} sets the device to the supplied number (0, 1, ...).
 }
+\references{
+NVIDIA CUDA Runtime API
+\url{https://docs.nvidia.com/cuda/cuda-runtime-api/index.html}
+}

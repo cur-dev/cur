@@ -15,6 +15,9 @@
 #' @param device
 #' A non-negative integer corresponding to the GPU you want to use.
 #' 
+#' @references NVIDIA CUDA Runtime API
+#' \url{https://docs.nvidia.com/cuda/cuda-runtime-api/index.html}
+#' 
 #' @name device_management
 #' @rdname device_management
 NULL

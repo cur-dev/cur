@@ -1,7 +1,8 @@
 #' System Management Interface
 #' 
 #' A weak clone of the system utility \code{nvidia-smi}. Only uses the package's
-#' public R interface.
+#' public R interface. For a real \code{nvidia-smi}-like interface, see the
+#' nvsmi package, which uses NVML.
 #' 
 #' @export
 smi = function()

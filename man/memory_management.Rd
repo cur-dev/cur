@@ -56,3 +56,7 @@ and the number of total bytes of memory on the current device.
 
 \code{cudaMemset()} memset for device memory.
 }
+\references{
+NVIDIA CUDA Runtime API
+\url{https://docs.nvidia.com/cuda/cuda-runtime-api/index.html}
+}
