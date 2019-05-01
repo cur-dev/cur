@@ -2,6 +2,7 @@ R_CPPFLAGS = @R_CPPFLAGS@
 
 NVCC = @NVCC@
 CUDA_CFLAGS = @CUDA_CFLAGS@
+CUDA_CPPFLAGS = -I../inst/include
 CUDA_LDFLAGS = @CUDA_LDFLAGS@
 
 PKG_LIBS = $(CUDA_LDFLAGS) -lcudart
@@ -13,7 +14,7 @@ OBJECTS = $(CUDA_OBJS) $(C_OBJS)
 all: $(SHLIB)
 
 %.o: %.cu
-	$(NVCC) -DGPU -O2 -x cu -c -arch=sm_61 -Xcompiler "-fPIC $(FLOAT_INCL) $(R_CPPFLAGS)" $< -o $@
+	$(NVCC) $(CUDA_CPPFLAGS) -DGPU -O2 -x cu -c -arch=sm_61 -Xcompiler "-fPIC $(R_CPPFLAGS)" $< -o $@
 
 
 clean:

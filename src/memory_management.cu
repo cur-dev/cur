@@ -1,15 +1,12 @@
 #include <cuda_runtime.h>
 #include <Rinternals.h>
 
+#include <cur.h>
+
 
 #define DEVICE_TO_HOST 1
 #define HOST_TO_DEVICE 2
 #define DEVICE_TO_DEVICE 3
-
-#define TYPE_INT 1
-#define TYPE_FLOAT 2
-#define TYPE_DOUBLE 3
-
 
 #define SET_ROBJ_PTR(ptr, R_ptr) \
   if (TYPEOF(R_ptr) == INTSXP){ \
@@ -18,8 +15,8 @@
     ptr = (void*) REAL(R_ptr); \
   }
 
-
-#define LOOKUP_SIZE(data_type) (data_type == TYPE_INT ? sizeof(int) : (data_type == TYPE_FLOAT ? sizeof(float) : sizeof(double)))
+#define LOOKUP_SIZE(data_type) \
+  (data_type == CUR_TYPE_INT ? sizeof(int) : (data_type == CUR_TYPE_FLOAT ? sizeof(float) : sizeof(double)))
 
 #define newRptr(ptr,Rptr,fin) PROTECT(Rptr = R_MakeExternalPtr(ptr, R_NilValue, R_NilValue));R_RegisterCFinalizerEx(Rptr, fin, TRUE)
 #define getRptr(ptr) R_ExternalPtrAddr(ptr)
