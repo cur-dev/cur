@@ -6,6 +6,9 @@ TYPE_INT = 1L
 TYPE_FLOAT = 2L
 TYPE_DOUBLE = 3L
 
+ARRTYPE_VECTOR = 1L
+ARRTYPE_MATRIX = 2L
+
 global_str2int = function(str)
 {
   if (str == "devicetohost")
